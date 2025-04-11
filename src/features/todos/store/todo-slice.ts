@@ -8,7 +8,7 @@ export interface Todo {
 
 export type Filter = 'all' | 'active' | 'completed';
 
-interface TodoState {
+export interface TodoState {
 	todos: Todo[];
 	filter: Filter;
 	search: string;
@@ -48,6 +48,9 @@ const todoSlice = createSlice({
 		setSearchQuery: (state, action: PayloadAction<string>) => {
 			state.search = action.payload;
 		},
+		hydrateState: (state, action: PayloadAction<TodoState>) => {
+			return action.payload;
+		}
 	},
 });
 
@@ -58,5 +61,6 @@ export const {
 	editTodo,
 	setFilter,
 	setSearchQuery,
+	hydrateState,
 } = todoSlice.actions;
 export default todoSlice.reducer;
