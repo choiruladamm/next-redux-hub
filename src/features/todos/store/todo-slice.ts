@@ -11,11 +11,13 @@ export type Filter = 'all' | 'active' | 'completed';
 interface TodoState {
 	todos: Todo[];
 	filter: Filter;
+	search: string;
 }
 
 const initialState: TodoState = {
 	todos: [],
 	filter: 'all',
+	search: '',
 };
 
 const todoSlice = createSlice({
@@ -43,9 +45,18 @@ const todoSlice = createSlice({
 		setFilter: (state, action: PayloadAction<Filter>) => {
 			state.filter = action.payload;
 		},
+		setSearchQuery: (state, action: PayloadAction<string>) => {
+			state.search = action.payload;
+		},
 	},
 });
 
-export const { addTodo, toogleTodo, deleteTodo, editTodo, setFilter } =
-	todoSlice.actions;
+export const {
+	addTodo,
+	toogleTodo,
+	deleteTodo,
+	editTodo,
+	setFilter,
+	setSearchQuery,
+} = todoSlice.actions;
 export default todoSlice.reducer;
