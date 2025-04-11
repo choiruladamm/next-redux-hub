@@ -8,8 +8,8 @@ const HomePage: React.FC<HomePageProps> = ({}) => {
 	return (
 		<div className='grid min-h-dvh place-items-center'>
 			<div className='flex gap-2'>
-				<Button>shadcnui</Button>
-				<Input placeholder='Search...' />
+				<Button>icikiwir</Button>
+				<Input placeholder='Lagi ngulik redux...' />
 			</div>
 		</div>
 	);
