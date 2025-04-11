@@ -21,7 +21,7 @@ export const TodoList: React.FC<TodoListProps> = ({}) => {
 						<p className='text-sm font-semibold sm:text-base'>
 							Tidak ada hasil untuk kata kunci:
 						</p>
-						<p className='text-sm italic text-foreground/80'>"{search}"</p>
+						<p className='text-sm italic text-foreground/80'>&quot;{search}&quot;</p>
 					</div>
 				) : (
 					<p className='text-sm text-foreground/80 sm:text-base'>
