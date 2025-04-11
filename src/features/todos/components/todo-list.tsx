@@ -3,19 +3,20 @@
 import { useAppSelector } from '@/hooks/use-app-selector';
 import React from 'react';
 import { TodoItem } from '.';
+import { getFilteredTodos } from '../store/selectors';
 
 interface TodoListProps {}
 
 export const TodoList: React.FC<TodoListProps> = ({}) => {
-	const todos = useAppSelector(state => state.todos.todos);
+	const filteredTodos = useAppSelector(getFilteredTodos);
 
-	if (todos.length === 0) {
+	if (filteredTodos.length === 0) {
 		return <p className='text-gray-500'>Belum ada todo.</p>;
 	}
 
 	return (
 		<ul className='space-y-2'>
-			{todos.map(todo => (
+			{filteredTodos.map(todo => (
 				<TodoItem key={todo.id} {...todo} />
 			))}
 		</ul>

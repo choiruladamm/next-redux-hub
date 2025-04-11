@@ -4,10 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useAppDispatch } from '@/hooks/use-app-dispatch';
 import { cn } from '@/lib/utils';
+import { Trash2 } from 'lucide-react';
 import React from 'react';
 import { deleteTodo, editTodo, Todo, toogleTodo } from '../store/todo-slice';
-import { Input } from '@/components/ui/input';
-import { Trash2 } from 'lucide-react';
 
 export const TodoItem: React.FC<Todo> = ({ id, text, completed }) => {
 	const dispatch = useAppDispatch();
@@ -26,7 +25,7 @@ export const TodoItem: React.FC<Todo> = ({ id, text, completed }) => {
 		<div
 			className={cn([
 				'flex items-center justify-between rounded-xl border bg-white',
-				'px-4 py-3 shadow-sm transition-all hover:shadow-md',
+				'px-4 py-3 shadow-sm transition-all duration-200 hover:shadow-md',
 			])}
 		>
 			<div className='flex w-full items-center gap-2'>
@@ -66,7 +65,7 @@ export const TodoItem: React.FC<Todo> = ({ id, text, completed }) => {
 			<Button
 				variant='destructive'
 				size='icon'
-				className='rounded-full h-8'
+				className='h-8 rounded-full'
 				onClick={() => dispatch(deleteTodo(id))}
 			>
 				<Trash2 className='size-4' />
