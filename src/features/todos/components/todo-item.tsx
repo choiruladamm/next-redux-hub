@@ -3,12 +3,24 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useAppDispatch } from '@/hooks/use-app-dispatch';
-import React from 'react';
-import { deleteTodo, Todo, toogleTodo } from '../store/todo-slice';
 import { cn } from '@/lib/utils';
+import React from 'react';
+import { deleteTodo, editTodo, Todo, toogleTodo } from '../store/todo-slice';
+import { Input } from '@/components/ui/input';
+import { Trash2 } from 'lucide-react';
 
 export const TodoItem: React.FC<Todo> = ({ id, text, completed }) => {
 	const dispatch = useAppDispatch();
+	const [isEditing, setIsEditing] = React.useState<boolean>(false);
+	const [editText, setEditText] = React.useState<string>(text);
+
+	const handleSave = () => {
+		const trimmed = editText.trim();
+		if (!trimmed) return;
+
+		dispatch(editTodo({ id, text: trimmed }));
+		setIsEditing(false);
+	};
 
 	return (
 		<div
@@ -17,26 +29,47 @@ export const TodoItem: React.FC<Todo> = ({ id, text, completed }) => {
 				'px-4 py-3 shadow-sm transition-all hover:shadow-md',
 			])}
 		>
-			<div className='flex items-center gap-2'>
+			<div className='flex w-full items-center gap-2'>
 				<Checkbox
 					checked={completed}
 					onCheckedChange={() => dispatch(toogleTodo(id))}
 				/>
-				<span
-					className={cn([
-						'text-sm transition-colors sm:text-base',
-						completed && 'line-through',
-					])}
-				>
-					{text}
-				</span>
+
+				{isEditing ? (
+					<input
+						value={editText}
+						onChange={e => setEditText(e.target.value)}
+						onBlur={handleSave}
+						onKeyDown={e => {
+							if (e.key === 'Enter') handleSave();
+							if (e.key === 'Escape') {
+								setEditText(text);
+								setIsEditing(false);
+							}
+						}}
+						autoFocus
+						className='w-full border-none bg-transparent pr-3 outline-none focus:ring-0'
+						placeholder='Type todo...'
+					/>
+				) : (
+					<span
+						onClick={() => setIsEditing(true)}
+						className={cn([
+							'text-sm transition-colors hover:underline sm:text-base',
+							completed && 'line-through',
+						])}
+					>
+						{text}
+					</span>
+				)}
 			</div>
 			<Button
 				variant='destructive'
-				size='sm'
+				size='icon'
+				className='rounded-full h-8'
 				onClick={() => dispatch(deleteTodo(id))}
 			>
-				Hapus
+				<Trash2 className='size-4' />
 			</Button>
 		</div>
 	);
