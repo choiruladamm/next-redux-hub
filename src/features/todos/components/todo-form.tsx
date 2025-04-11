@@ -26,15 +26,11 @@ export const TodoForm: React.FC<TodoFormProps> = ({}) => {
 				value={text}
 				onChange={e => setText(e.target.value)}
 				placeholder='Tambahkan todo...'
-			/>
-			<Button
-				onClick={handleAddTodo}
 				onKeyDown={e => {
 					if (e.key === 'Enter') handleAddTodo();
 				}}
-			>
-				Tambah
-			</Button>
+			/>
+			<Button onClick={handleAddTodo}>Tambah</Button>
 		</div>
 	);
 };
