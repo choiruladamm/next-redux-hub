@@ -1,22 +1,38 @@
 import todoReducer from '@/features/todos/store/todo-slice';
 import { configureStore } from '@reduxjs/toolkit';
-import { loadState, saveState } from './local-storage';
+import {
+	persistReducer,
+	persistStore,
+	FLUSH,
+	REHYDRATE,
+	PAUSE,
+	PERSIST,
+	PURGE,
+	REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
-const preloadedState = loadState();
+const persistConfig = {
+	key: 'root',
+	storage,
+	whitelist: ['todos'],
+};
+
+const persistedReducer = persistReducer(persistConfig, todoReducer);
 
 export const stores = configureStore({
 	reducer: {
-		todos: todoReducer,
+		todos: persistedReducer,
 	},
-	preloadedState
+	middleware: getDefaultMiddleware =>
+		getDefaultMiddleware({
+			serializableCheck: {
+				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+			},
+		}),
 });
 
-
-stores.subscribe(() => {
-	saveState({
-		todos: stores.getState().todos
-	})
-});
+export const persistor = persistStore(stores);
 
 export type RootState = ReturnType<typeof stores.getState>;
 export type AppDispatch = typeof stores.dispatch;
